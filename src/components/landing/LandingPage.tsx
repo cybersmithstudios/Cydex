@@ -1,9 +1,13 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Bike, Leaf, Users, MessageCircle } from "lucide-react";
+import { Bike, Leaf, Users } from "lucide-react";
 import LandingHeader from "./LandingHeader";
+import CarbonTracker from "./CarbonTracker";
+import { StorePreview } from "./StorePreview";
+import Testimonial from "./Testimonial";
 
 const teamMembers = [
   {
@@ -23,19 +27,6 @@ const teamMembers = [
   },
 ];
 
-const testimonials = [
-  {
-    text: "Cydex has revolutionized how we think about deliveries. It's fast, eco-friendly, and reliable!",
-    author: "John D.",
-    role: "Regular Customer",
-  },
-  {
-    text: "As a business owner, partnering with Cydex has helped reduce our carbon footprint significantly.",
-    author: "Maria S.",
-    role: "Restaurant Owner",
-  },
-];
-
 const faqs = [
   {
     question: "How does Cydex ensure eco-friendly deliveries?",
@@ -47,6 +38,16 @@ const faqs = [
     answer:
       "For every 10 plastic bottles recycled, you earn rewards like free deliveries or product discounts.",
   },
+  {
+    question: "How can I track my environmental impact?",
+    answer:
+      "Our platform provides real-time tracking of CO2 emissions saved through your eco-friendly deliveries.",
+  },
+  {
+    question: "Are your packaging materials sustainable?",
+    answer:
+      "Yes, we use 100% biodegradable and recycled packaging materials for all deliveries.",
+  },
 ];
 
 const LandingPage = () => {
@@ -54,25 +55,36 @@ const LandingPage = () => {
     <div className="min-h-screen bg-background pt-[72px]">
       <LandingHeader />
       {/* Hero Section */}
-      <section className="relative h-[600px] flex items-center justify-center bg-[#EFFFE0]">
-        <div className="container mx-auto px-6 relative z-10 text-center">
-          <h1 className="text-5xl font-bold mb-6 text-center">
-            Delivering a Greener Planet, Every Order Counts
-          </h1>
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1599939571322-792a326991f2')] bg-cover bg-center opacity-10" />
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Join our sustainable delivery revolution using bicycles and electric
-            fleets to reduce carbon emissions while ensuring swift, reliable
-            service.
-          </p>
-          <Button
-            size="lg"
-            className="bg-[#AFFF64] text-black hover:bg-[#9FEF54] rounded-[0]"
-          >
-            Place Your Eco-Friendly Delivery
-          </Button>
+      <section 
+        className="relative min-h-[75vh] md:min-h-[90vh] flex items-end bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: "url('/heroimage.jpg')",
+        }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/20"></div>
+        
+        <div className="container mx-auto px-4 py-16 text-left relative z-10 mb-12">
+          <div className="max-w-2xl">
+            <h1 className="font-clash text-[32px] leading-[40px] md:text-[48px] md:leading-[64px] lg:text-[48px] lg:leading-[64px] font-semibold mb-6 animate-fadeIn text-white">
+              Delivering a{" "}
+              <span className="text-[#AFFF64] drop-shadow-lg">
+                Greener Planet
+              </span>
+              , Every Order Counts
+            </h1>
+            <p className="text-sm md:text-base lg:text-xl text-white mb-8 animate-fadeIn drop-shadow-lg">
+              Join us in revolutionizing delivery services with our eco-friendly fleet
+              of bicycles and electric vehicles. Every delivery brings us closer to a
+              sustainable future.
+            </p>
+            <Button
+              className="bg-[#AFFF64] text-black hover:bg-[#9FEF54] rounded-[0] text-lg px-8 py-6 transition-all duration-300 animate-fadeIn shadow-lg hover:shadow-xl">
+              Place Your Eco-Friendly Delivery
+            </Button>
+          </div>
         </div>
       </section>
+
       {/* About Section */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
@@ -107,48 +119,39 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Carbon Tracker Section */}
+      <CarbonTracker />
+
+      {/* Store Preview Section */}
+      <StorePreview />
+
       {/* Team Section */}
       <section className="py-20 bg-[#EFFFE0]">
         <div className="container mx-auto px-6">
-          <h2 className="text-3xl font-bold mb-12 text-center">
-            Meet Our Team
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Meet Our Team</h2>
+            <p className="text-gray-600">
+              The passionate individuals behind our mission
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {teamMembers.map((member) => (
-              <Card key={member.name} className="p-6 text-center">
+              <div key={member.name} className="text-center">
                 <Avatar className="w-24 h-24 mx-auto mb-4">
                   <AvatarImage src={member.avatar} />
                   <AvatarFallback>{member.name[0]}</AvatarFallback>
                 </Avatar>
-                <h3 className="text-xl font-semibold mb-1">{member.name}</h3>
-                <p className="text-muted-foreground">{member.role}</p>
-              </Card>
+                <h3 className="font-semibold text-xl mb-1">{member.name}</h3>
+                <p className="text-gray-600">{member.role}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
-      {/* Testimonials */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-6">
-          <h2 className="text-3xl font-bold mb-12 text-center">
-            What Our Customers Say
-          </h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            {testimonials.map((testimonial) => (
-              <Card key={testimonial.author} className="p-6">
-                <MessageCircle className="w-8 h-8 text-[#AFFF64] mb-4" />
-                <p className="mb-4 italic">"{testimonial.text}"</p>
-                <p className="font-semibold">{testimonial.author}</p>
-                <p className="text-sm text-muted-foreground">
-                  {testimonial.role}
-                </p>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+
       {/* FAQs */}
-      <section className="py-20 bg-[#EFFFE0]">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
           <h2 className="text-3xl font-bold mb-12 text-center">
             Frequently Asked Questions
@@ -163,6 +166,10 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Testimonials */}
+      <Testimonial />
+
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12">
         <div className="container mx-auto px-6">
@@ -170,7 +177,7 @@ const LandingPage = () => {
             <div>
               <h3 className="text-xl font-semibold mb-4">Contact Us</h3>
               <p>Email: hello@cydex.com</p>
-              <p>Phone: (555) 123-4567</p>
+              <p>Phone: +234-806-773-0770</p>
             </div>
             <div>
               <h3 className="text-xl font-semibold mb-4">Follow Us</h3>
@@ -198,10 +205,9 @@ const LandingPage = () => {
               </div>
             </div>
             <div>
-              <div className="flex items-center gap-2 mb-4">
-                <Leaf className="h-8 w-8 text-[#AFFF64]" />
-                <span className="text-2xl font-bold">Cydex</span>
-              </div>
+              <Link to="/" className="flex items-center gap-2 mb-4">
+                <img src="/logo-i.png" alt="Cydex Logo" className="h-8" />
+              </Link>
               <p className="text-gray-400">
                 Delivering a sustainable future, one package at a time.
               </p>
