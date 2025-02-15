@@ -31,7 +31,7 @@ const LoginPage = () => {
           </div>
           <Link
             to="/forgot-password"
-            className="text-sm text-[#AFFF64] hover:underline"
+            className="text-sm text-[#59B800] hover:underline"
           >
             Forgot password?
           </Link>
@@ -43,7 +43,7 @@ const LoginPage = () => {
 
         <p className="text-center text-sm text-muted-foreground">
           Don't have an account?{" "}
-          <Link to="/signup" className="text-[#AFFF64] hover:underline">
+          <Link to="/signup" className="text-[#59B800] hover:underline">
             Sign up
           </Link>
         </p>

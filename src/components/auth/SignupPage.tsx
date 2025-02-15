@@ -2,6 +2,14 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Bike, User, Store } from "lucide-react";
 import AuthLayout from "./AuthLayout";
 
 const SignupPage = () => {
@@ -28,6 +36,34 @@ const SignupPage = () => {
           />
         </div>
 
+        <div className="space-y-2">
+          <Select>
+            <SelectTrigger className="h-12">
+              <SelectValue placeholder="Select your role" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="customer" className="flex items-center gap-2">
+                <div className="flex items-center gap-2">
+                  <User className="h-4 w-4" />
+                  <span>Customer</span>
+                </div>
+              </SelectItem>
+              <SelectItem value="rider" className="flex items-center gap-2">
+                <div className="flex items-center gap-2">
+                  <Bike className="h-4 w-4" />
+                  <span>Rider</span>
+                </div>
+              </SelectItem>
+              <SelectItem value="vendor" className="flex items-center gap-2">
+                <div className="flex items-center gap-2">
+                  <Store className="h-4 w-4" />
+                  <span>Vendor</span>
+                </div>
+              </SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
         <div className="flex items-start space-x-2">
           <Checkbox id="terms" className="mt-1" />
           <label
@@ -35,11 +71,11 @@ const SignupPage = () => {
             className="text-sm text-muted-foreground leading-relaxed"
           >
             By creating an account, you agree to our{" "}
-            <Link to="/terms" className="text-[#AFFF64] hover:underline">
+            <Link to="/terms" className="text-[#59B800] hover:underline">
               Terms of Service
             </Link>{" "}
             and{" "}
-            <Link to="/privacy" className="text-[#AFFF64] hover:underline">
+            <Link to="/privacy" className="text-[#59B800] hover:underline">
               Privacy Policy
             </Link>
           </label>
@@ -51,7 +87,7 @@ const SignupPage = () => {
 
         <p className="text-center text-sm text-muted-foreground">
           Already have an account?{" "}
-          <Link to="/login" className="text-[#AFFF64] hover:underline">
+          <Link to="/login" className="text-[#59B800] hover:underline">
             Sign in
           </Link>
         </p>

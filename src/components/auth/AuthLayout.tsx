@@ -13,8 +13,7 @@ const AuthLayout = ({ children, title, subtitle }: AuthLayoutProps) => {
       {/* Left: Form Side */}
       <div className="flex flex-col p-8 lg:p-12">
         <Link to="/" className="flex items-center gap-2 mb-12">
-          <Leaf className="h-8 w-8 text-[#AFFF64]" />
-          <span className="text-2xl font-bold">Cydex</span>
+          <img src="/logo.png" alt="Cydex Logo" className="h-8" />
         </Link>
 
         <div className="flex-1 flex flex-col justify-center max-w-[420px] mx-auto w-full">

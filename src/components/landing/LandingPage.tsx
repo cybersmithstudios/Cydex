@@ -55,11 +55,11 @@ const LandingPage = () => {
       <LandingHeader />
       {/* Hero Section */}
       <section className="relative h-[600px] flex items-center justify-center bg-[#EFFFE0]">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1599939571322-792a326991f2')] bg-cover bg-center opacity-10" />
         <div className="container mx-auto px-6 relative z-10 text-center">
-          <h1 className="text-5xl font-bold mb-6 text-left">
+          <h1 className="text-5xl font-bold mb-6 text-center">
             Delivering a Greener Planet, Every Order Counts
           </h1>
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1599939571322-792a326991f2')] bg-cover bg-center opacity-10" />
           <p className="text-xl mb-8 max-w-2xl mx-auto">
             Join our sustainable delivery revolution using bicycles and electric
             fleets to reduce carbon emissions while ensuring swift, reliable

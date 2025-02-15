@@ -17,15 +17,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import {
-  Wallet,
-  Bike,
-  Package,
-  Leaf,
-  LogOut,
-  Settings,
-  User,
-} from "lucide-react";
+import { Wallet, Bike, Package, LogOut, Settings, User } from "lucide-react";
 
 interface HeaderProps {
   userRole?: "customer" | "rider" | "vendor" | "admin";
@@ -44,9 +36,8 @@ const Header = ({
     <header className="w-full h-[72px] bg-background border-b flex items-center justify-between px-6 fixed top-0 z-50">
       <div className="flex items-center gap-8">
         {/* Logo */}
-        <div className="flex items-center gap-2">
-          <Leaf className="h-8 w-8 text-green-500" />
-          <span className="text-2xl font-bold">Cydex</span>
+        <div className="flex items-center">
+          <img src="/logo.png" alt="Cydex Logo" className="h-8" />
         </div>
 
         {/* Navigation Menu */}
