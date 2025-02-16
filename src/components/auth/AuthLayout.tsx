@@ -29,7 +29,7 @@ const AuthLayout = ({ children, title, subtitle }: AuthLayoutProps) => {
 
       {/* Right: Image Side */}
       <div className="hidden lg:block relative bg-[#EFFFE0]">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1599939571322-792a326991f2')] bg-cover bg-center opacity-10" />
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1599939571322-792a326991f2')] bg-cover bg-center opacity-50" />
         <div className="relative h-full flex items-center justify-center p-12">
           <div className="bg-white/90 backdrop-blur-sm p-8 rounded-lg max-w-[600px] mx-auto">
             <h2 className="text-2xl font-bold mb-4">

@@ -48,7 +48,7 @@ const LandingHeader = () => {
             Contact
           </Link>
           <Link to="/login">
-            <Button className="bg-[#AFFF64] text-black hover:bg-[#9FEF54]">
+            <Button className="bg-[#AFFF64] text-black rounded-[0] hover:bg-[#9FEF54]">
               Login
             </Button>
           </Link>
@@ -91,7 +91,7 @@ const LandingHeader = () => {
                 className="py-2"
                 onClick={() => setIsMenuOpen(false)}
               >
-                <Button className="w-full bg-[#AFFF64] text-black hover:bg-[#9FEF54]">
+                <Button className="w-full bg-[#AFFF64] rounded-[0] text-black hover:bg-[#9FEF54]">
                   Login
                 </Button>
               </Link>
