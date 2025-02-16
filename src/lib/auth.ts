@@ -21,6 +21,13 @@ export const signUp = async (
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: {
+          first_name: firstName,
+          last_name: lastName,
+          role: role,
+        },
+      },
     });
 
     if (authError) throw authError;
@@ -28,19 +35,7 @@ export const signUp = async (
     if (!authData.user) throw new Error("No user data returned");
 
     // 2. Create the user profile in the users table
-    const { error: profileError } = await supabase.from("users").insert([
-      {
-        id: authData.user.id,
-        email,
-        role,
-        first_name: firstName,
-        last_name: lastName,
-        wallet_balance: 0,
-      },
-    ]);
-
-    if (profileError) throw profileError;
-
+    // Note: We'll create this in a Supabase Function trigger when the user confirms their email
     return { user: authData.user, error: null };
   } catch (error) {
     return { user: null, error };

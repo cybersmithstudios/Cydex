@@ -10,16 +10,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Bike, User, Store } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import AuthLayout from "./AuthLayout";
-
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { signUp } from "@/lib/auth";
-import { useAuth } from "@/contexts/AuthContext";
 
 const SignupPage = () => {
-  const navigate = useNavigate();
-  const { setUser } = useAuth();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -27,44 +23,103 @@ const SignupPage = () => {
   const [role, setRole] = useState<"customer" | "rider" | "vendor">("customer");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!termsAccepted) {
+      setError("Please accept the terms and conditions");
+      return;
+    }
+
     setError("");
     setLoading(true);
 
     try {
-      const { user, error } = await signUp(
+      const { error: signUpError } = await signUp(
         email,
         password,
         firstName,
         lastName,
         role,
       );
-      if (error) throw error;
-      if (user) {
-        setUser(user);
-        navigate("/dashboard");
-      }
+
+      if (signUpError) throw signUpError;
+
+      setSuccess(true);
     } catch (err: any) {
       setError(err.message || "Failed to sign up");
     } finally {
       setLoading(false);
     }
   };
+
+  if (success) {
+    return (
+      <AuthLayout
+        title="Check your email"
+        subtitle="Follow the instructions sent to your email to complete your registration"
+      >
+        <div className="space-y-4">
+          <Alert>
+            <AlertDescription>
+              We've sent a confirmation email to {email}. Please check your
+              inbox and click the verification link to complete your
+              registration.
+            </AlertDescription>
+          </Alert>
+          <p className="text-sm text-muted-foreground text-center">
+            Already verified?{" "}
+            <Link to="/login" className="text-[#AFFF64] hover:underline">
+              Sign in
+            </Link>
+          </p>
+        </div>
+      </AuthLayout>
+    );
+  }
+
   return (
     <AuthLayout
       title="Create an account"
       subtitle="Join our eco-friendly delivery platform"
     >
-      <form className="space-y-4">
+      <form className="space-y-4" onSubmit={handleSubmit}>
+        {error && (
+          <Alert variant="destructive">
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+
         <div className="grid gap-4 grid-cols-2">
-          <Input type="text" placeholder="First name" className="h-12" />
-          <Input type="text" placeholder="Last name" className="h-12" />
+          <Input
+            type="text"
+            placeholder="First name"
+            className="h-12"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            required
+          />
+          <Input
+            type="text"
+            placeholder="Last name"
+            className="h-12"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            required
+          />
         </div>
 
         <div className="space-y-2">
-          <Input type="email" placeholder="Email address" className="h-12" />
+          <Input
+            type="email"
+            placeholder="Email address"
+            className="h-12"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
         </div>
 
         <div className="space-y-2">
@@ -72,11 +127,15 @@ const SignupPage = () => {
             type="password"
             placeholder="Create password"
             className="h-12"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            minLength={6}
           />
         </div>
 
         <div className="space-y-2">
-          <Select>
+          <Select value={role} onValueChange={(value: any) => setRole(value)}>
             <SelectTrigger className="h-12">
               <SelectValue placeholder="Select your role" />
             </SelectTrigger>
@@ -104,29 +163,38 @@ const SignupPage = () => {
         </div>
 
         <div className="flex items-start space-x-2">
-          <Checkbox id="terms" className="mt-1" />
+          <Checkbox
+            id="terms"
+            className="mt-1"
+            checked={termsAccepted}
+            onCheckedChange={(checked: boolean) => setTermsAccepted(checked)}
+          />
           <label
             htmlFor="terms"
             className="text-sm text-muted-foreground leading-relaxed"
           >
             By creating an account, you agree to our{" "}
-            <Link to="/terms" className="text-[#59B800] hover:underline">
+            <Link to="/terms" className="text-[#AFFF64] hover:underline">
               Terms of Service
             </Link>{" "}
             and{" "}
-            <Link to="/privacy" className="text-[#59B800] hover:underline">
+            <Link to="/privacy" className="text-[#AFFF64] hover:underline">
               Privacy Policy
             </Link>
           </label>
         </div>
 
-        <Button className="w-full h-12 bg-[#AFFF64] text-black hover:bg-[#9FEF54]">
-          Create account
+        <Button
+          type="submit"
+          className="w-full h-12 bg-[#AFFF64] text-black hover:bg-[#9FEF54]"
+          disabled={loading}
+        >
+          {loading ? "Creating account..." : "Create account"}
         </Button>
 
         <p className="text-center text-sm text-muted-foreground">
           Already have an account?{" "}
-          <Link to="/login" className="text-[#59B800] hover:underline">
+          <Link to="/login" className="text-[#AFFF64] hover:underline">
             Sign in
           </Link>
         </p>
