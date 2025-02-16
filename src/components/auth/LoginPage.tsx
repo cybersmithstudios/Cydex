@@ -4,7 +4,37 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import AuthLayout from "./AuthLayout";
 
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { signIn } from "@/lib/auth";
+import { useAuth } from "@/contexts/AuthContext";
+
 const LoginPage = () => {
+  const navigate = useNavigate();
+  const { setUser } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const { user, error } = await signIn(email, password);
+      if (error) throw error;
+      if (user) {
+        setUser(user);
+        navigate("/dashboard");
+      }
+    } catch (err: any) {
+      setError(err.message || "Failed to sign in");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <AuthLayout
       title="Welcome back"

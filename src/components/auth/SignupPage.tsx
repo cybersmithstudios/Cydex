@@ -12,7 +12,46 @@ import {
 import { Bike, User, Store } from "lucide-react";
 import AuthLayout from "./AuthLayout";
 
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { signUp } from "@/lib/auth";
+import { useAuth } from "@/contexts/AuthContext";
+
 const SignupPage = () => {
+  const navigate = useNavigate();
+  const { setUser } = useAuth();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState<"customer" | "rider" | "vendor">("customer");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const { user, error } = await signUp(
+        email,
+        password,
+        firstName,
+        lastName,
+        role,
+      );
+      if (error) throw error;
+      if (user) {
+        setUser(user);
+        navigate("/dashboard");
+      }
+    } catch (err: any) {
+      setError(err.message || "Failed to sign up");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <AuthLayout
       title="Create an account"
