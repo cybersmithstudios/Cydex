@@ -17,7 +17,6 @@ export const signUp = async (
   role: "customer" | "rider" | "vendor",
 ) => {
   try {
-    // 1. Sign up the user with Supabase Auth
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
       password,
@@ -27,17 +26,16 @@ export const signUp = async (
           last_name: lastName,
           role: role,
         },
+        emailRedirectTo: `${window.location.origin}/login`,
       },
     });
 
     if (authError) throw authError;
-
     if (!authData.user) throw new Error("No user data returned");
 
-    // 2. Create the user profile in the users table
-    // Note: We'll create this in a Supabase Function trigger when the user confirms their email
     return { user: authData.user, error: null };
-  } catch (error) {
+  } catch (error: any) {
+    console.error("Signup error:", error);
     return { user: null, error };
   }
 };
@@ -51,8 +49,8 @@ export const signIn = async (email: string, password: string) => {
       });
 
     if (authError) throw authError;
+    if (!authData.user) throw new Error("No user data returned");
 
-    // Get the user's profile data
     const { data: userData, error: userError } = await supabase
       .from("users")
       .select("*")
@@ -61,8 +59,19 @@ export const signIn = async (email: string, password: string) => {
 
     if (userError) throw userError;
 
-    return { user: { ...authData.user, ...userData }, error: null };
-  } catch (error) {
+    return {
+      user: {
+        id: userData.id,
+        email: userData.email,
+        firstName: userData.first_name,
+        lastName: userData.last_name,
+        role: userData.role,
+        walletBalance: userData.wallet_balance || 0,
+      },
+      error: null,
+    };
+  } catch (error: any) {
+    console.error("Signin error:", error);
     return { user: null, error };
   }
 };
@@ -94,8 +103,19 @@ export const getCurrentUser = async (): Promise<{
 
     if (userError) throw userError;
 
-    return { user: userData as UserData, error: null };
-  } catch (error) {
+    return {
+      user: {
+        id: userData.id,
+        email: userData.email,
+        firstName: userData.first_name,
+        lastName: userData.last_name,
+        role: userData.role,
+        walletBalance: userData.wallet_balance || 0,
+      },
+      error: null,
+    };
+  } catch (error: any) {
+    console.error("Get current user error:", error);
     return { user: null, error };
   }
 };

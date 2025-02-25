@@ -51,6 +51,8 @@ function App() {
               </PrivateRoute>
             }
           />
+          {/* Add a catch-all route that redirects to home */}
+          <Route path="*" element={<Navigate to="/" replace />} />
           {import.meta.env.VITE_TEMPO === "true" && (
             <Route path="/tempobook/*" />
           )}

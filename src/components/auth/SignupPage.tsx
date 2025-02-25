@@ -28,8 +28,14 @@ const SignupPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!termsAccepted) {
       setError("Please accept the terms and conditions");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long");
       return;
     }
 
@@ -49,6 +55,7 @@ const SignupPage = () => {
 
       setSuccess(true);
     } catch (err: any) {
+      console.error("Signup error:", err);
       setError(err.message || "Failed to sign up");
     } finally {
       setLoading(false);
@@ -125,7 +132,7 @@ const SignupPage = () => {
         <div className="space-y-2">
           <Input
             type="password"
-            placeholder="Create password"
+            placeholder="Create password (min. 6 characters)"
             className="h-12"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -135,9 +142,13 @@ const SignupPage = () => {
         </div>
 
         <div className="space-y-2">
-          <Select value={role} onValueChange={(value: any) => setRole(value)}>
+          <Select
+            value={role}
+            onValueChange={(value: any) => setRole(value)}
+            defaultValue="customer"
+          >
             <SelectTrigger className="h-12">
-              <SelectValue placeholder="Select your role" />
+              <SelectValue placeholder="Select your role (e.g., Customer)" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="customer" className="flex items-center gap-2">
